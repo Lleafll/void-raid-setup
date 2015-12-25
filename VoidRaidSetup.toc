@@ -1,0 +1,8 @@
+## Interface: 62000
+## Author: Lleaf
+## Version: 0.1
+## Title: Void Raid Setup
+## Notes: Helps with setting up the raid for bosses
+## DefaultState: Enabled
+
+core.lua
