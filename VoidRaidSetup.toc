@@ -7,4 +7,6 @@
 
 libs\libs.xml
 
-core.lua
+VoidRaidSetup.lua
+Core.lua
+Import.lua
