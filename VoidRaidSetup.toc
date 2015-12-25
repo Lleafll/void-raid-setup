@@ -1,7 +1,8 @@
-## Interface: 62000
+## Interface: 60200
+## Title: Void Raid Setup
 ## Author: Lleaf
 ## Version: 0.1
-## Title: Void Raid Setup
+## SavedVariables: VoidRaidSetupDB
 ## DefaultState: Enabled
 
 libs\libs.xml
