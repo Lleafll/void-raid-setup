@@ -1,0 +1,3 @@
+local addonName, addonTable = ...
+VoidRaidSetup = LibStub("AceAddon-3.0"):NewAddon(addonTable, addonName, "AceEvent-3.0")
+
