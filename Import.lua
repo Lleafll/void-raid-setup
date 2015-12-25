@@ -18,7 +18,7 @@ function VRS:Import()
   local input = self.ImportFrame:GetText()
   local inputFunc = loadstring("return "..input)
   local inputTable = inputFunc()
-  if not type(inputTable) == "table" then
+  if not type(inputTable) == "table" then  -- maybe replace with assert
     -- raise error message
   else
     self.db = inputTable
