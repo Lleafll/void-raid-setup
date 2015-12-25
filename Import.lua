@@ -2,6 +2,13 @@ local addonName, VRS = ...
 
 local function createImportFrame(self)
   self.ImportFrame = CreateFrame("EditBox", addonName.."Import", UIParent, "ChatFrameEditBoxTemplate")
+  self.ImportFrame:SetAutoFocus(true)
+  self.ImportFrame:RegisterEvent("OnEnterPressed", function(self)
+    VRS:Import()
+  end)
+  self.ImportFrame:RegisterEvent("OnEscapePressed", function(self)
+    self:Hide()
+  end)
 end
 
 function VRS:OpenImportFrame()
@@ -22,6 +29,6 @@ function VRS:Import()
     -- raise error message
   else
     self.db = inputTable
-    self.ImportFrame:Close()
+    self.ImportFrame:Hide()
   end
 end
