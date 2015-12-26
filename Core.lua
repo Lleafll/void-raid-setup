@@ -11,6 +11,10 @@ local standby = {}
   when killing preceding boss?
 ]]--
 
+local function clearTable(tbl) {
+  for var   
+}
+
 local function createPlayer(parent)
   
 end
@@ -24,13 +28,14 @@ end
 function VRS:UpdateVRS()
   local bossTable = self.db[self.selectedBoss]
   for i in NumGroupMembers() do
-    local = name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML = GetRaidRosterInfo(i)
+    local name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML = GetRaidRosterInfo(i)
+    local playerKey = self.db.keys[name]  -- might need to split server string
     if subgroup <= 4 then
-      if bossTable.setup.standby[name] then
+      if not bossTable.setup.setup[playerKey] then
         standby[#standby+1] = name
       end
     else
-      if bossTable.setup.setup[name] then
+      if bossTable.setup.setup[playerKey] then
         setup[#setup+1] = name
       end
     end
