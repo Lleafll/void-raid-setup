@@ -2,6 +2,9 @@ local addonName, VRS = ...
 
 local function createImportFrame(self)
   self.ImportFrame = CreateFrame("EditBox", addonName.."Import", UIParent, "ChatFrameEditBoxTemplate")
+  self.ImportFrame:SetPoint("CENTER")
+  self.ImportFrame:SetHeight(200)
+  self.ImportFrame:SetWidth(200)
   self.ImportFrame:SetAutoFocus(true)
   self.ImportFrame:RegisterEvent("OnEnterPressed", function(self)
     local input = self:GetText()
