@@ -12,7 +12,7 @@ local raidSize = 4  -- number of groups in raid
 
 local function createVRSFrame(self)
   self.Frame = CreateFrame()  -- create frame for addon functionality
-  self.Frame:SetPoint("TOP", "LEFT)
+  self.Frame:SetPoint("TOP", "LEFT")
   self.Frame.Dropdown:Hide()
 
   self.Frame.Dropdown = CreateFrame("Button", self.Frame, "UIDropDownMenuTemplate")
