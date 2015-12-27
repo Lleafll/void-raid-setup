@@ -3,17 +3,17 @@ local addonName, VRS = ...
 local raidSize = 4  -- number of groups in raid
 
 local function createVRSFrame(self)
-  self.Frame = CreateFrame()  -- create frame for addon functionality
-  self.Frame:SetPoint("TOP", "LEFT")
-  self.Frame:Hide()
+  self.Frame = CreateFrame("Frame", addonName.."Frame", UIParent)  -- change parent to raid options menu
+  self.Frame:SetPoint("TOP", "BOTTOM")
+  self.Frame:Show()
   function self.Frame:Update()
     local setupString = "Move to Setup:\n"
     local standbyString = "Move to Standby:\n"
-    self.db.selectedBoss = self.db.selectedBoss or 1
-    local bossTable = self.db.bosses[self.db.selectedBoss]
+    VRS.db.selectedBoss = VRS.db.selectedBoss or 1
+    local bossTable = VRS.db.bosses[VRS.db.selectedBoss]
     for i in NumGroupMembers() do
       local name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML = GetRaidRosterInfo(i)
-      local playerKey = self.db.keys[name]  -- might need to split server string
+      local playerKey = VRS.db.keys[name]  -- might need to split server string
       local playerInSetup = bossTable.setup[playerKey]
       if subgroup <= raidSize and not playerInSetup then
         standbyString = standbyString .. name .. "\n"
@@ -22,12 +22,14 @@ local function createVRSFrame(self)
       end
     end
     -- set self.db.name as VRS Frame title
-    self.Frame.Setup:SetText(setupString)
-    self.Frame.Standby:SetText(standbyString)
+    self.Setup:SetText(setupString)
+    self.Standby:SetText(standbyString)
   end
+  
+  createVRSFrame(VRS)
   self.Frame:RegisterEvent("OnShow", "Update")
+  self.Frane:RegisterEvent("RAID_ROSTER_UPDATE", "Update")
   --[[needed events:
-    RAID_ROSTER_UPDATE
     GROUP_ROSTER_UPDATE?
     GROUP_JOINED?
     when killing preceding boss?
