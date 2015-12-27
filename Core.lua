@@ -4,11 +4,13 @@ local raidSize = 4  -- number of groups in raid
 
 local function createVRSFrame(self)
   self.Frame = CreateFrame("Frame", addonName.."Frame", UIParent)  -- change parent to raid options menu
-  self.Frame:SetPoint("TOP", "BOTTOM")
+  self.Frame:SetPoint("TOPLEFT", "BOTTOMLEFT")
+  self.Frame:SetPoint("TOPRIGHT", "BOTTOMRIGHT")
+  self.Frame:SetHeight(200)
   self.Frame:Show()
   function self.Frame:Update()
-    local setupString = "Move to Setup:\n"
-    local standbyString = "Move to Standby:\n"
+    local setupString = ""
+    local standbyString = ""
     VRS.db.selectedBoss = VRS.db.selectedBoss or 1
     local bossTable = VRS.db.bosses[VRS.db.selectedBoss]
     for i in NumGroupMembers() do
@@ -21,12 +23,28 @@ local function createVRSFrame(self)
         setupString = setupString .. name .. "\n"
       end
     end
+    local notInRaidString = ""
+    for key, name in pairs(VRS.db.players) do
+      if bossTable.setup.[key] and not UnitInRaid(name) then
+        notInRaidString = notInRaidString + name + "\n"
+      end
+    end
+    
     -- set self.db.name as VRS Frame title
+    if setupString == "" then
+      setupString = "-\n"
+    end
+    if notInRaidString ~= "" then
+      setupString = setupString + "\nNot in Raid:\n" + notInRaidString
+    end
+    if standbyString == "" then
+      standbyString = "-\n"
+    end
+    setupString = "Move to Setup:\n" + setupString
+    standbyString = "Move to Standby:\n" + standbyString
     self.Setup:SetText(setupString)
     self.Standby:SetText(standbyString)
   end
-  
-  createVRSFrame(VRS)
   self.Frame:RegisterEvent("OnShow", "Update")
   self.Frane:RegisterEvent("RAID_ROSTER_UPDATE", "Update")
   --[[needed events:
@@ -59,10 +77,14 @@ local function createVRSFrame(self)
 
   self.Frame.Setup = CreateFrame("FontString", self.Frame)
   self.Frame.Setup:SetPoint("TOPLEFT", 0, -50)
+  self.Frame.Setup:SetPoint("TOPRIGHT", "TOP", 0, -50)
+  self.Frame.Setup:SetPoint("BOTTOMLEFT", "BOTTOMLEFT", 0, 50)
   self.Frame.Setup:Show()
 
   self.Frame.Standby = CreateFrame("FontString", self.Frame)
   self.Frame.Standby:SetPoint("TOPRIGHT", 0, -50)
+  self.Frame.Setup:SetPoint("TOPLEFT", "TOP", 0, -50)
+  self.Frame.Setup:SetPoint("BOTTOMRIGHT", "BOTTOMRIGHT", 0, 50)
   self.Frame.Standby:Show()
 
   self.Frame.Auto = CreateFrame("Button", self.Frame)  -- look for appropriate button template
@@ -73,3 +95,5 @@ local function createVRSFrame(self)
     -- Auto Sort
   end)
 end
+
+createVRSFrame(VRS)
