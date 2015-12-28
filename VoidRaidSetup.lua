@@ -1,5 +1,5 @@
 local addonName, VRS = ...
-LibStub("AceAddon-3.0"):NewAddon(VRS, addonName, "AceEvent-3.0")
+LibStub("AceAddon-3.0"):NewAddon(VRS, addonName, "AceEvent-3.0", "AceConsole-3.0")
 
 function VRS:HandleChatCommand(command)
   self:OpenImportFrame()
