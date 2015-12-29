@@ -8,9 +8,13 @@ VRS:RegisterChatCommand("vrs", "HandleChatCommand")
 VRS:RegisterChatCommand("voidraidsetup", "HandleChatCommand")
 
 function VRS:OnInitialize()
-  self.db = LibStub("AceDB-3.0"):New(addonName.."DB", {
-    name = "",
-    keys = {},
-    bosses = {}
+  local VRSDB = LibStub("AceDB-3.0"):New(addonName.."DB", {
+    global = {
+	  name = "",
+      keys = {},
+	  bosses = {{name="No Bosses Loaded", setup={}}}
+	}
   }, true)
+  self.db = VRSDB.global
+  self:InitializeFrame()
 end
