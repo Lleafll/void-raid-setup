@@ -2,10 +2,10 @@ local addonName, VRS = ...
 
 local raidSize = 4  -- number of groups in raid
 
-local function createVRSFrame(self)
+function VRS:InitializeFrame()
   self.Frame = CreateFrame("Frame", addonName.."Frame", UIParent)  -- change parent to raid options menu
-  self.Frame:SetPoint("TOPLEFT", "BOTTOMLEFT")
-  self.Frame:SetPoint("TOPRIGHT", "BOTTOMRIGHT")
+  self.Frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT")
+  self.Frame:SetPoint("TOPRIGHT",UIParent, "BOTTOMRIGHT")
   self.Frame:SetHeight(200)
   self.Frame:Show()
   function self.Frame:Update()
@@ -53,38 +53,42 @@ local function createVRSFrame(self)
     when killing preceding boss?
   ]]--
   
-  self.Frame.Dropdown = CreateFrame("Button", self.Frame, "UIDropDownMenuTemplate")
+  self.Frame.Dropdown = CreateFrame("Button", nil, self.Frame, "UIDropDownMenuTemplate")
   self.Frame.Dropdown:SetPoint("TOP")
   self.Frame.Dropdown:Show()
-  UIDropDownMenu_Initialize(self.Frame.Dropdown, function(self, level)
+  UIDropDownMenu_Initialize(self.Frame.Dropdown, function(self, level, menuList)
+	if not VRS.db.bosses then
+	  print("No bosses in DB")
+	  return
+	end
+    local info = UIDropDownMenu_CreateInfo()
+    info.func = function(self)
+      local id = self:GetID()
+      UIDropDownMenu_SetSelectedID(VRS.Frame.Dropdown, id)
+      VRS.db.selectedBoss = id
+      VRS.Frame:Update()
+    end
     for k, v in pairs(VRS.db.bosses) do
-      local info = UIDropDownMenu_CreateInfo()
       info.text = v.name
-      info.value = k
-      info.func = function(self)
-        local id = self:GetID()
-        UIDropDownMenu_SetSelectedID(VRS.Frame.Dropdown, id)
-        VRS.db.selectedBoss = id
-        VRS.Frame:Update()
-      end
-      UIDropDownMenu_AddButton(info, level)
+      info.arg1 = k
+      UIDropDownMenu_AddButton(info)
     end
   end)
-  UIDropDownMenu_SetWidth(self.Frame.Dropdown, 100)
-  UIDropDownMenu_SetButtonWidth(self.Frame.Dropdown, 124)
-  UIDropDownMenu_SetSelectedID(self.Frame.Dropdown, self.db.selectedBoss or 1)
-  UIDropDownMenu_JustifyText(self.Frame.Dropdown, "CENTER")
+  --UIDropDownMenu_SetWidth(self.Frame.Dropdown, 100)
+  --UIDropDownMenu_SetButtonWidth(self.Frame.Dropdown, 124)
+  --UIDropDownMenu_SetSelectedID(self.Frame.Dropdown, self.db.selectedBoss or 1)
+  --UIDropDownMenu_JustifyText(self.Frame.Dropdown, "CENTER")
 
-  self.Frame.Setup = CreateFrame("FontString", self.Frame)
+  self.Frame.Setup = self.Frame:CreateFontString()
   self.Frame.Setup:SetPoint("TOPLEFT", 0, -50)
-  self.Frame.Setup:SetPoint("TOPRIGHT", "TOP", 0, -50)
-  self.Frame.Setup:SetPoint("BOTTOMLEFT", "BOTTOMLEFT", 0, 50)
+  self.Frame.Setup:SetPoint("TOPRIGHT", self.Frame, "TOP", 0, -50)
+  self.Frame.Setup:SetPoint("BOTTOMLEFT", self.Frame, "BOTTOMLEFT", 0, 50)
   self.Frame.Setup:Show()
 
-  self.Frame.Standby = CreateFrame("FontString", self.Frame)
+  self.Frame.Standby = self.Frame:CreateFontString()
   self.Frame.Standby:SetPoint("TOPRIGHT", 0, -50)
-  self.Frame.Setup:SetPoint("TOPLEFT", "TOP", 0, -50)
-  self.Frame.Setup:SetPoint("BOTTOMRIGHT", "BOTTOMRIGHT", 0, 50)
+  self.Frame.Setup:SetPoint("TOPLEFT", self.Frame, "TOP", 0, -50)
+  self.Frame.Setup:SetPoint("BOTTOMRIGHT", self.Frame, "BOTTOMRIGHT", 0, 50)
   self.Frame.Standby:Show()
 
   self.Frame.Auto = CreateFrame("Button", self.Frame)  -- look for appropriate button template
@@ -95,5 +99,3 @@ local function createVRSFrame(self)
     -- Auto Sort
   end)
 end
-
-createVRSFrame(VRS)
