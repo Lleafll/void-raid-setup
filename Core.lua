@@ -25,7 +25,7 @@ local function createVRSFrame(self)
     end
     local notInRaidString = ""
     for key, name in pairs(VRS.db.players) do
-      if bossTable.setup.[key] and not UnitInRaid(name) then  -- might not work crossrealm
+      if bossTable.setup[key] and not UnitInRaid(name) then  -- might not work crossrealm
         notInRaidString = notInRaidString + name + "\n"
       end
     end
@@ -46,7 +46,7 @@ local function createVRSFrame(self)
     self.Standby:SetText(standbyString)
   end
   self.Frame:RegisterEvent("OnShow", "Update")
-  self.Frane:RegisterEvent("RAID_ROSTER_UPDATE", "Update")
+  self.Frame:RegisterEvent("RAID_ROSTER_UPDATE", "Update")
   --[[needed events:
     GROUP_ROSTER_UPDATE?
     GROUP_JOINED?

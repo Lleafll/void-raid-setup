@@ -5,7 +5,7 @@ function VRS:HandleChatCommand(command)
   self:OpenImportFrame()
 end
 VRS:RegisterChatCommand("vrs", "HandleChatCommand")
-VRS:RegisterCharCommand("voidraidsetup", "HandleChatCommand")
+VRS:RegisterChatCommand("voidraidsetup", "HandleChatCommand")
 
 function VRS:OnInitialize()
   self.db = LibStub("AceDB-3.0"):New(addonName.."DB", {
