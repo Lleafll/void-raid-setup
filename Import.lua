@@ -7,19 +7,39 @@ local function createImportFrame(self)
   self.ImportFrame:SetWidth(200)
   self.ImportFrame:Hide()
   self.ImportFrame:SetAutoFocus(true)
-  self.ImportFrame:RegisterEvent("OnEnterPressed", function(self)
+  self.ImportFrame:SetScript("OnEnterPressed", function(self)
+	-- debug
+	print("Enter pressed")
     local input = self:GetText()
-    local inputFunc = loadstring("return "..input)
+	-- debug
+	print(input)
+    local inputFunc, errorMessage = loadstring("return "..input)
+	if not inputFunc then
+	  print("Wrong Data Format!")
+	  print(errorMessage)
+	  return
+	end
     local inputTable = inputFunc()
-    if not type(inputTable) == "table" then  -- maybe replace with assert
-      -- raise error message
-    else
+	-- debug
+	--print(type(inputTable))
+    if type(inputTable) == "table" then  -- maybe replace with assert
+	  -- debug
+	  print(inputTable.name, inputTable.players, inputTable.bosses)
+	  if not inputTable.bosses or not inputTable.name or not inputTable.players then
+	    print("Wrong Table Format!")
+	    return
+	  end
       VRS.db = inputTable
       self:Hide()
       VRS.Frame:Update()  -- maybe check if shown
-    end
+	  return
+    else
+      print("No Table supplied!")
+	end
   end)
-  self.ImportFrame:RegisterEvent("OnEscapePressed", function(self)
+  self.ImportFrame:SetScript("OnEscapePressed", function(self)
+    -- debug
+	--print("Escape pressed")
     self:Hide()
   end)
 end
