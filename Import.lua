@@ -1,10 +1,12 @@
 local addonName, VRS = ...
 
 local function createImportFrame(self)
-  self.ImportFrame = CreateFrame("EditBox", addonName.."Import", UIParent, "ChatFrameEditBoxTemplate")  -- possible template: ChatFrameEditBoxTemplate?
+  self.ImportFrame = CreateFrame("EditBox", addonName.."Import", UIParent, "InputBoxTemplate")  -- possible template: ChatFrameEditBoxTemplate? InputBoxTemplate?
   self.ImportFrame:SetPoint("CENTER")
   self.ImportFrame:SetHeight(200)
   self.ImportFrame:SetWidth(200)
+  self.ImportFrame:SetBackdropColor(1, 1, 1, 1)
+  self.ImportFrame:SetResizable(true)
   self.ImportFrame:Hide()
   self.ImportFrame:SetAutoFocus(true)
   self.ImportFrame:SetScript("OnEnterPressed", function(self)
