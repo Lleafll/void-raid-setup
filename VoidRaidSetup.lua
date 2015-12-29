@@ -11,7 +11,7 @@ function VRS:OnInitialize()
   local VRSDB = LibStub("AceDB-3.0"):New(addonName.."DB", {
     global = {
 	  name = "",
-      keys = {},
+      players = {},
 	  bosses = {{name="No Bosses Loaded", setup={}}}
 	}
   }, true)
