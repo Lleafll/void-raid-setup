@@ -3,10 +3,11 @@ local addonName, VRS = ...
 local raidSize = 4  -- number of groups in raid
 
 function VRS:InitializeFrame()
-  self.Frame = CreateFrame("Frame", addonName.."Frame", UIParent)  -- change parent to raid options menu
-  self.Frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT")
-  self.Frame:SetPoint("TOPRIGHT",UIParent, "BOTTOMRIGHT")
+  self.Frame = CreateFrame("Frame", addonName.."Frame", RaidFrame)  -- change parent to raid options menu
+  self.Frame:SetPoint("TOPLEFT", RaidFrame, "BOTTOMLEFT", 0, -50)
+  self.Frame:SetPoint("TOPRIGHT", RaidFrame, "BOTTOMRIGHT", 0, -50)
   self.Frame:SetHeight(200)
+  self.Frame:SetBackdropColor(1, 1, 1, 1)
   self.Frame:Show()
   function self.Frame:Update()
     local setupString = ""
@@ -53,14 +54,10 @@ function VRS:InitializeFrame()
     when killing preceding boss?
   ]]--
   
-  self.Frame.Dropdown = CreateFrame("Button", nil, self.Frame, "UIDropDownMenuTemplate")
+  self.Frame.Dropdown = CreateFrame("Button", addonName.."FrameDropDownMenu", self.Frame, "UIDropDownMenuTemplate")
   self.Frame.Dropdown:SetPoint("TOP")
   self.Frame.Dropdown:Show()
   UIDropDownMenu_Initialize(self.Frame.Dropdown, function(self, level, menuList)
-	if not VRS.db.bosses then
-	  print("No bosses in DB")
-	  return
-	end
     local info = UIDropDownMenu_CreateInfo()
     info.func = function(self)
       local id = self:GetID()
@@ -70,25 +67,29 @@ function VRS:InitializeFrame()
     end
     for k, v in pairs(VRS.db.bosses) do
       info.text = v.name
-      info.arg1 = k
+      info.value = k
       UIDropDownMenu_AddButton(info)
     end
   end)
-  --UIDropDownMenu_SetWidth(self.Frame.Dropdown, 100)
-  --UIDropDownMenu_SetButtonWidth(self.Frame.Dropdown, 124)
-  --UIDropDownMenu_SetSelectedID(self.Frame.Dropdown, self.db.selectedBoss or 1)
-  --UIDropDownMenu_JustifyText(self.Frame.Dropdown, "CENTER")
+  UIDropDownMenu_SetWidth(self.Frame.Dropdown, 200)
+  UIDropDownMenu_SetButtonWidth(self.Frame.Dropdown, 248)
+  UIDropDownMenu_SetSelectedID(self.Frame.Dropdown, self.db.selectedBoss or 1)
+  UIDropDownMenu_JustifyText(self.Frame.Dropdown, "LEFT")
 
   self.Frame.Setup = self.Frame:CreateFontString()
   self.Frame.Setup:SetPoint("TOPLEFT", 0, -50)
   self.Frame.Setup:SetPoint("TOPRIGHT", self.Frame, "TOP", 0, -50)
   self.Frame.Setup:SetPoint("BOTTOMLEFT", self.Frame, "BOTTOMLEFT", 0, 50)
+  self.Frame.Setup:SetFontObject("GameFontNormal")
+  self.Frame.Setup:SetText("Move to Setup:")
   self.Frame.Setup:Show()
 
   self.Frame.Standby = self.Frame:CreateFontString()
   self.Frame.Standby:SetPoint("TOPRIGHT", 0, -50)
-  self.Frame.Setup:SetPoint("TOPLEFT", self.Frame, "TOP", 0, -50)
-  self.Frame.Setup:SetPoint("BOTTOMRIGHT", self.Frame, "BOTTOMRIGHT", 0, 50)
+  self.Frame.Standby:SetPoint("TOPLEFT", self.Frame, "TOP", 0, -50)
+  self.Frame.Standby:SetPoint("BOTTOMRIGHT", self.Frame, "BOTTOMRIGHT", 0, 50)
+  self.Frame.Standby:SetFontObject("GameFontNormal")
+  self.Frame.Standby:SetText("Move to Raid:")
   self.Frame.Standby:Show()
 
   self.Frame.Auto = CreateFrame("Button", self.Frame)  -- look for appropriate button template
