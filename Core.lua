@@ -14,7 +14,7 @@ function VRS:InitializeFrame()
     local standbyString = ""
     VRS.db.selectedBoss = VRS.db.selectedBoss or 1
     local bossTable = VRS.db.bosses[VRS.db.selectedBoss]
-    for i in NumGroupMembers() do
+    for i = 1, GetNumGroupMembers() do
       local name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML = GetRaidRosterInfo(i)
       local playerKey = VRS.db.keys[name]  -- might need to split server string
       local playerInSetup = bossTable.setup[playerKey]
