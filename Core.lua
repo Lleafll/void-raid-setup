@@ -45,8 +45,8 @@ function VRS:InitializeFrame()
     end
     setupString = "Move to Setup:\n"..setupString
     standbyString = "Move to Standby:\n" .. standbyString
-    self.Setup:SetText(setupString)
-    self.Standby:SetText(standbyString)
+    VRS.Frame.Setup:SetText(setupString)
+    VRS.Frame.Standby:SetText(standbyString)
   end
   self.Frame:RegisterEvent("OnShow", "Update")
   self.Frame:RegisterEvent("RAID_ROSTER_UPDATE", "Update")
