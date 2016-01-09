@@ -101,4 +101,6 @@ function VRS:InitializeFrame()
   self.Frame.Auto:RegisterEvent("OnClick", function()
     -- Auto Sort
   end)
+  
+  self.Frame:Update()
 end
