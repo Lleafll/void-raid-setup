@@ -16,13 +16,15 @@ function VRS:InitializeFrame()
     local bossTable = VRS.db.bosses[VRS.db.selectedBoss]
     for i = 1, GetNumGroupMembers() do
       local name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML = GetRaidRosterInfo(i)
-      local playerKey = VRS.db.keys[name]  -- might need to split server string
-      local playerInSetup = bossTable.setup[playerKey]
-      if subgroup <= raidSize and not playerInSetup then
-        standbyString = standbyString .. name .. "\n"
-      elseif subgroup > raidSize and playerInSetup then
-        setupString = setupString .. name .. "\n"
-      end
+	  if name then
+	    local playerKey = VRS.db.players[name]  -- might need to split server string
+		local playerInSetup = bossTable.setup[playerKey]
+		if subgroup <= raidSize and not playerInSetup then
+		  standbyString = standbyString .. name .. "\n"
+		elseif subgroup > raidSize and playerInSetup then
+		  setupString = setupString .. name .. "\n"
+		end
+	  end
     end
     local notInRaidString = ""
     for key, name in pairs(VRS.db.players) do
