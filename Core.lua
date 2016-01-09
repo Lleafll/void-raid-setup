@@ -29,7 +29,7 @@ function VRS:InitializeFrame()
     local notInRaidString = ""
     for name, key in pairs(VRS.db.players) do
       if bossTable.setup[key] and not UnitInRaid(name) then  -- might not work crossrealm
-        notInRaidString = notInRaidString + name + "\n"
+        notInRaidString = notInRaidString .. name .. "\n"
       end
     end
     
@@ -38,13 +38,13 @@ function VRS:InitializeFrame()
       setupString = "-\n"
     end
     if notInRaidString ~= "" then
-      setupString = setupString + "\nNot in Raid:\n" + notInRaidString
+      setupString = setupString .. "\nNot in Raid:\n" .. notInRaidString
     end
     if standbyString == "" then
       standbyString = "-\n"
     end
-    setupString = "Move to Setup:\n" + setupString
-    standbyString = "Move to Standby:\n" + standbyString
+    setupString = "Move to Setup:\n"..setupString
+    standbyString = "Move to Standby:\n" .. standbyString
     self.Setup:SetText(setupString)
     self.Standby:SetText(standbyString)
   end
