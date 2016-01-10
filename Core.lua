@@ -64,13 +64,15 @@ function VRS:InitializeFrame()
     info.func = function(self)
       local id = self:GetID()
       UIDropDownMenu_SetSelectedID(VRS.Frame.Dropdown, id)
-      VRS.db.selectedBoss = id
+      VRS.db.selectedBoss = self.value
       VRS.Frame:Update()
     end
     for k, v in pairs(VRS.db.bosses) do
-      info.text = v.name
-      info.value = k
-      UIDropDownMenu_AddButton(info)
+	  if #v.setup > 0 then
+        info.text = v.name
+        info.value = k
+        UIDropDownMenu_AddButton(info)
+	  end
     end
   end)
   UIDropDownMenu_SetWidth(self.Frame.Dropdown, 200)
