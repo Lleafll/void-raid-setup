@@ -68,11 +68,9 @@ function VRS:InitializeFrame()
       VRS.Frame:Update()
     end
     for k, v in pairs(VRS.db.bosses) do
-	  if #v.setup > 0 then
-        info.text = v.name
-        info.value = k
-        UIDropDownMenu_AddButton(info)
-	  end
+      info.text = v.name
+      info.value = k
+      UIDropDownMenu_AddButton(info)
     end
   end)
   UIDropDownMenu_SetWidth(self.Frame.Dropdown, 200)
