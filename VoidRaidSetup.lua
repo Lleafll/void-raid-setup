@@ -17,4 +17,5 @@ function VRS:OnInitialize()
   }, true)
   self.db = VRSDB.global
   self:InitializeFrame()
+  
 end

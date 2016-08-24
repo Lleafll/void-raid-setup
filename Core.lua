@@ -32,7 +32,7 @@ function VRS:InitializeFrame()
         notInRaidString = notInRaidString .. name .. "\n"
       end
     end
-    
+
     -- set self.db.name as VRS Frame title
     if setupString == "" then
       setupString = "-\n"
@@ -55,7 +55,7 @@ function VRS:InitializeFrame()
     GROUP_JOINED?
     when killing preceding boss?
   ]]--
-  
+
   self.Frame.Dropdown = CreateFrame("Button", addonName.."FrameDropDownMenu", self.Frame, "UIDropDownMenuTemplate")
   self.Frame.Dropdown:SetPoint("TOP")
   self.Frame.Dropdown:Show()
@@ -105,6 +105,6 @@ function VRS:InitializeFrame()
   self.Frame.Auto:RegisterEvent("OnClick", function()
     -- Auto Sort
   end)
-  
+
   self.Frame:Update()
 end
